@@ -1,0 +1,18 @@
+# ORCA scratch / bulky intermediates
+*.gbw
+*.densities
+*.densitiesinfo
+*.property.txt
+*.engrad
+*.opt
+*.tmp
+*.err
+*_trj.xyz
+*.bibtex
+
+# Python
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store
