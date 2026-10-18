@@ -1,4 +1,4 @@
-# prepinac
+# photoswitch
 
 Quantum-chemical study of the **azobenzene photoswitch**: trans/cis structures, isomerization
 pathways and excited states. Student project, UCT Prague (VŠCHT).
