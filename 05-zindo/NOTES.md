@@ -5,11 +5,17 @@ ZINDO/S + CIS (2 singlet roots) single points on the lower-envelope geometries o
 
 ## Procedure
 
+Run from `05-zindo/`:
 ```
-# split the envelope into one xyz per point and run
-awk -v d=torsion 'NR%26==1{n++; f=sprintf("%s/p%03d.xyz", d, n-1)} {print > f}' ../03-scan/torsion_envelope.xyz
-cd torsion && /usr/local/bin/orca_6_1_1/orca p000.inp > p000.out
-python scripts/zindo_plot.py        # -> torsion_zindo.dat, inversion_zindo.dat, zindo_states.png (S0 from 03-scan envelope)
+for d in torsion inversion; do
+  mkdir -p $d
+  awk -v d=$d 'NR%26==1{n++; f=sprintf("%s/p%03d.xyz", d, n-1)} {print > f}' ../03-scan/${d}_envelope.xyz
+  (cd $d && for x in p*.xyz; do
+    printf '! ZINDO/S\n%%cis nroots 2 end\n* xyzfile 0 1 %s\n' $x > ${x%.xyz}.inp
+    /usr/local/bin/orca_6_1_1/orca ${x%.xyz}.inp > ${x%.xyz}.out
+  done)
+done
+python ../scripts/zindo_plot.py     # -> torsion_zindo.dat, inversion_zindo.dat, zindo_states.png (S0 from 03-scan envelope)
 ```
 
 Input (`p000.inp`):
@@ -19,7 +25,8 @@ Input (`p000.inp`):
 * xyzfile 0 1 p000.xyz
 ```
 
-In the output: `FINAL SINGLE POINT ENERGY` (S0), `CIS-EXCITED STATES (SINGLETS)` (excitation energies and
+In the output: `Total Energy` in the SCF section (ZINDO/S S0; `FINAL SINGLE POINT ENERGY` is E(SCF) + ΔE(S1)
+after CIS), `CIS-EXCITED STATES (SINGLETS)` (excitation energies and
 weights of i → a excitations), `ABSORPTION SPECTRUM VIA TRANSITION ELECTRIC DIPOLE MOMENTS` (oscillator strengths).
 
 ## Notes

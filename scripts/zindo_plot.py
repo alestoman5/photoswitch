@@ -1,8 +1,9 @@
 import glob
 import re
+from pathlib import Path
 import matplotlib.pyplot as plt
 
-R = '/disk2/tomanl/prepinac/'
+R = f'{Path(__file__).resolve().parents[1]}/'
 EV = 27.211386
 
 

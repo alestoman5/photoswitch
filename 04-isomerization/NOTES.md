@@ -31,7 +31,7 @@ MOPAC 23.2.5 (conda env `mopac`). Final settings, identical for both isomers:
 - frequencies: `PM6 PRECISE FORCE THERMO(298) SCFCRT=1.D-9`
 
 ```
-/disk2/tomanl/miniforge3/envs/mopac/bin/mopac trans_rot0.03_opt.mop    # -> .out, .arc
+mopac trans_rot0.03_opt.mop    # mopac env -> .out, .arc
 grep "FINAL HEAT OF FORMATION" trans_rot0.03_opt.out
 grep -E "^\s+FREQUENCY" trans_rot0.03_freq.out | head -3
 ```
@@ -41,8 +41,8 @@ parametrization, so ΔH(cis − trans) = ΔH_f(cis) − ΔH_f(trans).
 
 | Isomer | Files | ΔH_f / kcal·mol⁻¹ | ΔH_f / kJ·mol⁻¹ | Gradient norm | Lowest frequency / cm⁻¹ | CNNC / ° | C–C–N=N / ° |
 |---|---|---|---|---|---|---|---|
-| trans | `trans_rot0.03_*` | 95.88429 | 401.17987 | 0.00096 | 10.41 | 179.2 | 163.4, −18.7 |
-| cis | `cis_bfgs_*` | 91.94097 | 384.68102 | 0.00063 | 16.52 | 1.6 | 51.0, −134.3 |
+| trans | `trans_rot0.03_*` | 95.88429 | 401.17986 | 0.00096 | 10.41 | 179.2 | 163.4, −18.7 |
+| cis | `cis_bfgs_*` | 91.94097 | 384.68104 | 0.00063 | 16.52 | 1.6 | 51.0, −134.3 |
 
 ΔH(cis − trans) = −16.50 kJ/mol.
 
@@ -50,7 +50,8 @@ History (all runs kept in `pm6/`):
 
 - Default EF optimizer (`*_opt`, `*_scf_*`, `*_tight_*`, `*_ddmin_*`) stopped on "heat of formation is
   essentially stationary" above `GNORM`; the lowest frequency of one isomer was always −8 to −12 cm⁻¹.
-- `BFGS` reached `GNORM=0.001` for both. trans stayed planar (C2h start) with −7.75 cm⁻¹.
+- `BFGS` reached `GNORM=0.001` for both (Peters test satisfied; the output also prints "essentially
+  stationary"). trans stayed planar (C2h start) with −7.75 cm⁻¹.
 - MOPAC reorients the molecule for `FORCE`; `scripts/displace_mopac.py` now rotates the normal mode
   back into the input frame. Runs `cis_displaced_*`, `cis_disp04_*` and `trans_bfgs_disp_*` used the
   unrotated mode (wrong direction).
@@ -67,4 +68,7 @@ History (all runs kept in `pm6/`):
 | PM6 (ΔH_f, see below) | – | – | −16.50 | – |
 
 Experiment: 47.0 ± 1.3 kJ/mol, heat of isomerization measured by calorimetry in the liquid state
-(o-terphenyl matrix); M. Zhu, L. Yu, https://par.nsf.gov/servlets/purl/10133412 (full text not checked).
+(o-terphenyl matrix); M. Zhu, L. Yu, Trans–cis isomerization energies of azopyridines: a calorimetric and
+computational study, J. Therm. Anal. Calorim. 132, 463, doi:10.1007/s10973-017-6913-0
+(accepted manuscript: https://par.nsf.gov/servlets/purl/10133412). Bibliographic data from a citing reference;
+the full text could not be downloaded here and was not checked.

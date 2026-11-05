@@ -1,7 +1,8 @@
+from pathlib import Path
 import numpy as np
 import matplotlib.pyplot as plt
 
-SCAN = '/disk2/tomanl/prepinac/03-scan/'
+SCAN = f'{Path(__file__).resolve().parents[1]}/03-scan/'
 EH = 2625.4996
 
 

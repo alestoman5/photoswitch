@@ -1,9 +1,10 @@
+from pathlib import Path
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 from skimage.measure import marching_cubes
 
-D = '/disk2/tomanl/prepinac/06-orbitals/'
+D = f'{Path(__file__).resolve().parents[1]}/06-orbitals/'
 BOHR = 0.529177
 ISO = 0.03
 

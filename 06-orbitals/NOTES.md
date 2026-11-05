@@ -30,7 +30,7 @@ For cis the phenyl rings are twisted out of the CNNC plane, so ring orbitals sho
 ## Figure
 
 ```
-python scripts/plot_orbitals.py     # needs scikit-image (comp_chem) -> orbitals.png
+python ../scripts/plot_orbitals.py    # needs scikit-image (comp_chem) -> orbitals.png
 ```
 
 Isosurfaces ±0.03 of MOs 29, 33, 34 (blue +, orange −) from the cube files, marching cubes, molecule rotated so that

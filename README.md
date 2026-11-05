@@ -32,4 +32,4 @@ The procedure for each stage (commands in order) is in its `NOTES.md`.
 
 - [ORCA 6.1.1](https://orcaforum.kofo.mpg.de/) (academic license, not redistributable)
 - [MOPAC 23.2.5](https://github.com/openmopac/mopac) (conda-forge, `mopac` environment)
-- Python with numpy, matplotlib and scikit-image (`scripts/`)
+- Python with numpy 2.4.6, matplotlib 3.11.0 and scikit-image 0.26.0 (`scripts/`, tested with these versions)
