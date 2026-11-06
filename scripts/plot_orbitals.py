@@ -25,10 +25,10 @@ def read_cube(path):
 
 
 def frame(xyz):
-    # x along N=N, z along the normal of the C2-N0-N1-C13 plane
+    # x along N=N, z along the normal of the C2-N0=N1 plane
     ex = xyz[1] - xyz[0]
     ex /= np.linalg.norm(ex)
-    ez = np.cross(xyz[2] - xyz[0], xyz[13] - xyz[1])
+    ez = np.cross(xyz[2] - xyz[0], xyz[1] - xyz[0])  # N0->C2 and N1->C13 are antiparallel in trans
     ez -= (ez @ ex) * ex
     ez /= np.linalg.norm(ez)
     return np.array([ex, np.cross(ez, ex), ez]), (xyz[0] + xyz[1]) / 2
@@ -55,12 +55,12 @@ def draw(ax, iso, mo):
     ax.set_proj_type('ortho')
     ax.view_init(elev=25, azim=-15)
     ax.set_axis_off()
-    ax.text2D(0.02, 0.92, f'{iso}, MO {mo}', transform=ax.transAxes, fontsize=10)
+    ax.text2D(0.02, 0.92, f'{iso.split("_")[0]}, MO {mo}', transform=ax.transAxes, fontsize=10)
 
 
 fig = plt.figure(figsize=(9, 10))
 for row, mo in enumerate([29, 33, 34]):
-    for col, iso in enumerate(['trans', 'cis']):
+    for col, iso in enumerate(['trans', 'cis_min']):
         draw(fig.add_subplot(3, 2, 2 * row + col + 1, projection='3d'), iso, mo)
 fig.subplots_adjust(left=0, right=1, bottom=0, top=1, wspace=0, hspace=0)
 fig.savefig(f'{D}orbitals.png', dpi=150)

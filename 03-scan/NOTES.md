@@ -46,3 +46,9 @@ geometry, rounded to 0.1°) and writes:
 
 The inversion path is plotted as CNN on the trans side (115–180°) followed by 360° − CNN on the cis side.
 At 180° the trans and cis branches differ by 0.04 kJ/mol.
+
+- The torsion envelope maximum (90°, 222.62 kJ/mol) lies where the `torsion` and `torsion_from75` branches
+  cross (between 90° and 95°); the branches differ in the phenyl orientation (C–C–N=N ≈ 175°/−13° vs
+  −179°/7° at 90°), so the maximum is a cusp of the envelope and not a stationary point.
+- The torsion end point 0° is constrained (51.69 kJ/mol); the cis minimum (`01-opt`, CNNC 5.8°) is
+  50.92 kJ/mol above trans, the 5° point 50.87 kJ/mol.

@@ -36,7 +36,8 @@ weights of i → a excitations), `ABSORPTION SPECTRUM VIA TRANSITION ELECTRIC DI
   the nuclear repulsion grows faster than the electronic energy compensates
   (`torsion/p000.out` vs `p036.out`: nuclear repulsion 375.5 vs 397.3 Eh).
 - The energy does not depend on molecular orientation (four rotated copies of trans agree within 3·10⁻⁷ Eh).
-- ZINDO/1 on the same geometries (test, not tracked): trans −105.616235, 90° −105.551483, cis −105.623746 Eh.
+- ZINDO/1 on the same geometries (test, not tracked): trans −105.616235, 90° −105.551483, cis −105.623746 Eh
+  (cis − trans = −19.7 kJ/mol); not used further.
 - Plotted states: S0 = ωB97X-D3/def2-TZVP energy of the envelope point (`03-scan/*_envelope.dat`),
   S1 = S0 + ΔE1(ZINDO/S), S2 = S0 + ΔE2(ZINDO/S). The bottom panels show the ZINDO/S excitation energies alone.
 - Inversion: ΔE2 jumps from 3.81 to 4.33 eV between 140° and 145°, where the envelope switches from the

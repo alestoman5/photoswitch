@@ -6,7 +6,8 @@ out, xyzfile = sys.argv[1], sys.argv[2]
 mos = range(29, 39)
 
 x = np.array([[float(v) for v in l.split()[1:4]] for l in open(xyzfile).read().split('\n')[2:] if l.strip()])
-normal = np.cross(x[2] - x[0], x[13] - x[1])  # normal of the C2-N0-N1-C13 plane
+# normal of the C2-N0=N1 plane; N0->C2 and N1->C13 are antiparallel in trans, so their cross product is ~0
+normal = np.cross(x[1] - x[0], x[2] - x[0])
 normal /= np.linalg.norm(normal)
 
 lines = open(out).read().split('MOLECULAR ORBITALS')[1].split('\n')[2:]

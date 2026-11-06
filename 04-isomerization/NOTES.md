@@ -58,6 +58,9 @@ History (all runs kept in `pm6/`):
 - Energy profile along the lowest trans mode of the planar structure (`mode_profile/trans_rot_*`) is
   almost purely quartic. Displacing by ±0.03 and ±0.10 Å and reoptimizing gave the same non-planar
   minimum (ΔH_f 95.88429 kcal/mol, 0.0245 kcal/mol below planar) with all frequencies positive.
+- Final PM6 geometries (N=N, CNN, CNNC): trans 1.254 Å, 117.8°, 179.2°; cis 1.220 Å, 128.6°, 1.6°
+  (ωB97X-D3/def2-TZVP: trans 1.235 Å, 115.1°, 180.0°; cis 1.231 Å, 122.6°, 5.8°). Both isomers use the same
+  keywords, so the sign of ΔH(cis − trans) does not come from different settings.
 
 ## Comparison (cis − trans, kJ/mol, gas phase, 298.15 K)
 
