@@ -17,6 +17,13 @@
 *_trj.xyz
 *.bibtex
 *.cis
+*.[0-9][0-9][0-9].hess
+*.gbw_hs
+*.qro
+*.uco
+*.uno
+*.unoloc
+*.unso
 
 # Python
 __pycache__/

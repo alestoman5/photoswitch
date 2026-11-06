@@ -1,0 +1,4 @@
+! wB97X-D3 def2-TZVP DefGrid3 TightOpt VeryTightSCF OptTS Freq
+%pal nprocs 8 end
+%geom Calc_Hess true end
+* xyzfile 0 1 inversion.xyz

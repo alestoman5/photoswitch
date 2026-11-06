@@ -25,6 +25,7 @@ pathways and excited states. Student project, UCT Prague (VŠCHT).
 | [`04-isomerization/`](04-isomerization/) | done | isomerization energies: B3LYP/6-31G*, PM6 (MOPAC) |
 | [`05-zindo/`](05-zindo/) | done | ZINDO/S + CIS excitation energies along the scan envelopes |
 | [`06-orbitals/`](06-orbitals/) | done | ZINDO/S orbitals and character of S1, S2 at trans and cis |
+| [`07-ts/`](07-ts/) | done | closed-shell stability at torsion 90°, inversion transition state and barriers |
 
 The procedure for each stage (commands in order) is in its `NOTES.md`.
 
