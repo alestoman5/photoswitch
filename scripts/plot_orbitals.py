@@ -4,22 +4,23 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 from skimage.measure import marching_cubes
 
-D = f'{Path(__file__).resolve().parents[1]}/06-orbitals/'
-BOHR = 0.529177
-ISO = 0.03
+D = f'{Path(__file__).resolve().parents[1]}/06-orbitals/'  # cube files and output
+BOHR = 0.529177  # bohr -> Å
+ISO = 0.03  # isosurface value
 
 
 def read_cube(path):
+    # Gaussian cube: atoms (Å), values on the grid, grid origin and step vectors (Å)
     lines = open(path).read().split('\n')
     p = lines[2].split()
-    nat, origin = int(p[0]), np.array([float(v) for v in p[1:4]])
+    nat, origin = int(p[0]), np.array([float(v) for v in p[1:4]])  # nat < 0 means an extra MO line follows
     axes = [lines[3 + i].split() for i in range(3)]
-    n = [int(a[0]) for a in axes]
+    n = [int(a[0]) for a in axes]  # grid points per axis
     step = np.array([[float(v) for v in a[1:4]] for a in axes])
     atoms = [lines[6 + i].split() for i in range(abs(nat))]
-    z = [int(a[0]) for a in atoms]
+    z = [int(a[0]) for a in atoms]  # atomic numbers
     xyz = np.array([[float(v) for v in a[2:5]] for a in atoms]) * BOHR
-    start = 6 + abs(nat) + (1 if nat < 0 else 0)
+    start = 6 + abs(nat) + (1 if nat < 0 else 0)  # first line with grid values
     vals = np.array(' '.join(lines[start:]).split(), float).reshape(n)
     return z, xyz, vals, origin * BOHR, step * BOHR
 
@@ -29,27 +30,29 @@ def frame(xyz):
     ex = xyz[1] - xyz[0]
     ex /= np.linalg.norm(ex)
     ez = np.cross(xyz[2] - xyz[0], xyz[1] - xyz[0])  # N0->C2 and N1->C13 are antiparallel in trans
-    ez -= (ez @ ex) * ex
+    ez -= (ez @ ex) * ex  # make z orthogonal to x
     ez /= np.linalg.norm(ez)
-    return np.array([ex, np.cross(ez, ex), ez]), (xyz[0] + xyz[1]) / 2
+    return np.array([ex, np.cross(ez, ex), ez]), (xyz[0] + xyz[1]) / 2  # rotation rows, centre of N=N
 
 
 def draw(ax, iso, mo):
+    # one panel: +/- isosurfaces of one MO with the molecule
     z, xyz, vals, origin, step = read_cube(f'{D}{iso}_mo{mo}.cube')
     rot, center = frame(xyz)
-    tr = lambda p: (p - center) @ rot.T
+    tr = lambda p: (p - center) @ rot.T  # to the molecular frame
     for level, color in [(ISO, '#2a78d6'), (-ISO, '#eb6834')]:
-        verts, faces, _, _ = marching_cubes(vals, level)
+        verts, faces, _, _ = marching_cubes(vals, level)  # vertices in grid-index units
         verts = tr(origin + verts @ step)
         ax.add_collection3d(Poly3DCollection(verts[faces], color=color, alpha=0.55, linewidth=0))
     pos = tr(xyz)
     for i in range(len(z)):
         for j in range(i):
+            # bond if shorter than 1.2 Å (with H) or 1.6 Å (heavy atoms)
             if np.linalg.norm(pos[i] - pos[j]) < (1.2 if 1 in (z[i], z[j]) else 1.6):
                 ax.plot(*pos[[i, j]].T, color='0.3', lw=1.2)
-    colors = {1: '0.85', 6: '0.35', 7: '#1f3fbf'}
+    colors = {1: '0.85', 6: '0.35', 7: '#1f3fbf'}  # H, C, N
     ax.scatter(*pos.T, c=[colors[k] for k in z], s=[8 if k == 1 else 18 for k in z], depthshade=False)
-    r = np.abs(pos).max() + 0.5
+    r = np.abs(pos).max() + 0.5  # same range on all axes
     ax.set(xlim=(-r, r), ylim=(-r, r), zlim=(-r, r))
     ax.set_box_aspect((1, 1, 1), zoom=1.6)
     ax.set_proj_type('ortho')
@@ -58,6 +61,7 @@ def draw(ax, iso, mo):
     ax.text2D(0.02, 0.92, f'{iso.split("_")[0]}, MO {mo}', transform=ax.transAxes, fontsize=10)
 
 
+# rows: MOs 29 (n), 33 (HOMO), 34 (LUMO); columns: trans, cis minimum
 fig = plt.figure(figsize=(9, 10))
 for row, mo in enumerate([29, 33, 34]):
     for col, iso in enumerate(['trans', 'cis_min']):

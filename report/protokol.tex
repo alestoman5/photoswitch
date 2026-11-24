@@ -1,0 +1,256 @@
+% Protocol draft: azobenzene photoswitch.
+% Compile with: tectonic protokol.tex   (conda env `tex`)
+\documentclass[11pt,a4paper]{article}
+
+% XeTeX (tectonic) needs fontspec with explicit OpenType files for Czech carons (see uv-vis report)
+\usepackage{fontspec}
+\setmainfont{lmroman10-regular.otf}[BoldFont=lmroman10-bold.otf,
+  ItalicFont=lmroman10-italic.otf, BoldItalicFont=lmroman10-bolditalic.otf]
+\setsansfont{lmsans10-regular.otf}[BoldFont=lmsans10-bold.otf, ItalicFont=lmsans10-oblique.otf]
+\setmonofont{lmmono10-regular.otf}[BoldFont=lmmonolt10-bold.otf, ItalicFont=lmmono10-italic.otf]
+\usepackage{polyglossia}
+\setmainlanguage{czech}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{xcolor}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{caption}
+\usepackage{float}
+\usepackage[hidelinks]{hyperref}
+
+% Czech number format: decimal comma, proper minus, exponents as powers
+\sisetup{output-decimal-marker={,}, per-mode=power, group-minimum-digits=5, separate-uncertainty=true,
+  range-phrase={--}, list-pair-separator={ a~}, list-final-separator={ a~}, range-units=single, list-units=single}
+\DeclareSIUnit\hartree{\ensuremath{E_\mathrm{h}}}
+\newcommand{\kjm}{\si{\kilo\joule\per\mole}}
+% draft marker: interpretation waiting for the author's approval
+\newcommand{\todo}[1]{\textcolor{red}{[K~revizi: #1]}}
+
+\graphicspath{{../03-scan/}{../05-zindo/}{../06-orbitals/}}
+\setlength{\parskip}{0.3em}
+\setlength{\emergencystretch}{3em}
+\widowpenalty=10000
+\clubpenalty=10000
+
+\title{Fotopřepínače: izomerace azobenzenu}
+\author{Aleš Toman}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{Zadání}
+\begin{itemize}\itemsep2pt
+  \item Optimalizovat trans\mbox{-} a~cis-azobenzen, ověřit minima, porovnat stabilitu.
+  \item Optimalizovaný sken mezi oběma formami; izomerační energie metodami PM6 a~\mbox{B3LYP/6-31G*} ve srovnání s~experimentem.
+  \item Základní a~dva excitované stavy podél reakční koordináty metodou ZINDO; molekulové orbitaly a~charakter přechodů.
+\end{itemize}
+
+\section*{Úvod}
+\begin{itemize}\itemsep2pt
+  \item Azobenzen se světlem přepíná mezi stabilnějším trans\mbox{-} a~méně stabilním cis-izomerem; cis se zpět
+        mění světlem nebo termálně. Mění se přitom geometrie i~dipólový moment molekuly.
+  \item Využití: fotofarmakologie (léčiva aktivovaná světlem), fotoresponzivní materiály
+        (přepínatelná adheziva, nosiče léčiv), fotonika a~ukládání energie~[1];
+        chemické senzory, organické tranzistory a~obnova zraku~[2].
+  \item Specifické postupy této práce:
+  \begin{itemize}
+    \item dvě izomerační cesty (rotace kolem N=N, inverze na dusíku), z~více větví skenu se bere dolní obálka;
+    \item u~torze \SI{90}{\degree} je uzavřenoslupkové řešení nestabilní, proto výpočet s~narušenou symetrií
+          (broken symmetry, BS) a~Yamaguchiho projekce~[3];
+    \item $S_0$, $S_1$ a~$S_2$ podél cest jsou ze ZINDO/S ($S_n = S_0 + \Delta E_n$); energie $S_0$ ze ZINDO/S ale nemá fyzikální smysl (viz níže).
+  \end{itemize}
+\end{itemize}
+
+\section*{Metody}
+\begin{itemize}\itemsep2pt
+  \item ORCA~6.1.1~[4]; $\omega$B97X-D3~[5]/def2-TZVP~[6], integrační mřížka DefGrid3, SCF práh \SI{e-9}{\hartree}.
+        \todo{zdůvodnění volby metody: range-separated hybrid s~disperzní korekcí, triple-zeta báze}
+  \item Frekvence analyticky, termochemie v~harmonické aproximaci (\SI{298.15}{\kelvin}, \SI{1}{atm}).
+  \item Relaxované skeny po \SI{5}{\degree}: dihedrální úhel CNNC \SIrange{180}{0}{\degree}, úhel CNN
+        z~trans i~z~cis strany do \SI{180}{\degree}.
+  \item PM6~[7] v~programu MOPAC~23.2.5 (výsledkem je slučovací entalpie při \SI{298}{\kelvin});
+        \mbox{B3LYP/6-31G*} v~ORCA (optimalizace + frekvence).
+  \item ZINDO/S~[8] + CIS (2 singletní stavy) na geometriích dolní obálky skenů.
+  \item Postup krok po kroku (vstupy, příkazy): \texttt{NOTES.md} v~adresářích repozitáře
+        \url{https://github.com/alestoman5/prepinac}.
+\end{itemize}
+
+\section*{Výsledky a~diskuse}
+
+\subsection*{Struktura a~stabilita izomerů}
+\begin{itemize}\itemsep2pt
+  \item Oba izomery jsou minima: žádná imaginární frekvence (nejnižší \SI{12.0}{\per\centi\metre} trans,
+        \SI{40.6}{\per\centi\metre} cis).
+  \item trans je planární, cis má fenyly vytočené z~roviny CNNC.
+\end{itemize}
+
+\begin{table}[H]
+\centering\small
+\caption{Geometrie a~relativní energie cis vůči trans, $\omega$B97X-D3/def2-TZVP, \SI{298.15}{\kelvin}.
+  $\Delta E$ elektronová energie, ZPE energie nulových kmitů, $\Delta H$ entalpie, $\Delta G$ Gibbsova energie.}
+\begin{tabular}{lSSS@{\hspace{2em}}SSSS}
+\toprule
+ & {CNNC} & {CNN} & {$d$(N=N)} & {$\Delta E$} & {$\Delta E$+ZPE} & {$\Delta H$} & {$\Delta G$} \\
+ & {/ \si{\degree}} & {/ \si{\degree}} & {/ \si{\angstrom}} & {/ \kjm} & {/ \kjm} & {/ \kjm} & {/ \kjm} \\
+\midrule
+trans & 180.0 & 115.1 & 1.235 & 0 & 0 & 0 & 0 \\
+cis   & 5.8   & 122.6 & 1.231 & 50.9 & 50.4 & 50.0 & 52.4 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{Izomerační cesty}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{scan_envelope.png}
+\caption{Relaxované skeny, $\omega$B97X-D3/def2-TZVP. Vlevo torze CNNC, vpravo inverze CNN (trans strana $\to$
+  lineární CNN $\to$ cis strana). Šedě dolní obálka ze všech větví.}
+\end{figure}
+\begin{itemize}\itemsep2pt
+  \item Sken torze z~trans skočí mezi \SIlist{80;75}{\degree} na jinou větev (oba fenyly se otočí, pokles o~\SI{96}{\kilo\joule\per\mole});
+        přepočet z~druhé větve dává nižší energie u~\SIrange{80}{90}{\degree}. Podobně u~inverze mezi \SIlist{155;160}{\degree}.
+  \item Maximum obálky torze (\SI{90}{\degree}, \SI{222.6}{\kilo\joule\per\mole}) je průsečík dvou větví, ne stacionární bod.
+  \item Inverze: tranzitní stav optimalizován (jedna imaginární frekvence \SI{-421}{\per\centi\metre}, úhel CNN \SI{179.4}{\degree}).
+\end{itemize}
+
+\begin{table}[H]
+\centering\small
+\caption{Bariéry izomerace, $\omega$B97X-D3/def2-TZVP, vztaženo k~trans; $\langle S^2\rangle$ střední hodnota
+  kvadrátu spinu. Torze \SI{90}{\degree}: CNNC fixován.}
+\begin{tabular}{lSS}
+\toprule
+ & {$\langle S^2\rangle$} & {$\Delta E$ / \kjm} \\
+\midrule
+inverze, TS & 0 & 166.9 \\
+torze \SI{90}{\degree}, RKS (sken) & 0 & 222.6 \\
+torze \SI{90}{\degree}, BS singlet, opt. & 1.10 & 139.6 \\
+torze \SI{90}{\degree}, BS singlet, Yamaguchiho projekce & 0 & 155.5 \\
+torze \SI{90}{\degree}, triplet, opt. & 2.08 & 124.2 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\begin{itemize}\itemsep2pt
+  \item Bariéra inverze vůči cis: $\Delta H^\ddagger = \SI{110.8}{\kilo\joule\per\mole}$,
+        $\Delta G^\ddagger = \SI{108.4}{\kilo\joule\per\mole}$.
+  \item Uzavřenoslupkové (RKS) řešení u~torze \SI{90}{\degree} je nestabilní (záporné vlastní číslo matice stability),
+        energie \SI{222.6}{\kilo\joule\per\mole} je proto nadhodnocená.
+  \item \todo{srovnání torze a~inverze po doběhnutí BS optimalizace; mechanismus termální izomerace}
+\end{itemize}
+
+\subsection*{Izomerační energie a~srovnání s~experimentem}
+\begin{table}[H]
+\centering\small
+\caption{Izomerační energie cis${}-{}$trans v~\kjm, plynná fáze, \SI{298.15}{\kelvin}. PM6: rozdíl slučovacích entalpií.}
+\begin{tabular}{lSSSS}
+\toprule
+metoda & {$\Delta E$} & {$\Delta E$+ZPE} & {$\Delta H$} & {$\Delta G$} \\
+\midrule
+$\omega$B97X-D3/def2-TZVP & 50.9 & 50.4 & 50.0 & 52.4 \\
+\mbox{B3LYP/6-31G*}       & 63.5 & 61.9 & 61.9 & 62.8 \\
+PM6                & {--} & {--} & -16.5 & {--} \\
+\midrule
+exp., plynná fáze~[9,10]   & {--} & {--} & 47.4(32) & {--} \\
+exp., kapalina (DSC)~[9]   & {--} & {--} & 47.0(13) & {--} \\
+\bottomrule
+\end{tabular}
+\end{table}
+\begin{itemize}\itemsep2pt
+  \item $\omega$B97X-D3 se od experimentu liší o~\SI{2.6}{\kilo\joule\per\mole} (v~mezích nejistoty plynné fáze),
+        \mbox{B3LYP/6-31G*} nadhodnocuje o~\SI{14}{\kilo\joule\per\mole}.
+  \item PM6 dává opačné znaménko: cis vychází stabilnější. Pro oba izomery stejné nastavení a~kladné frekvence,
+        jde tedy o~chybu metody, ne výpočtu.
+  \item Experimentální hodnoty se podle [9] téměř neliší mezi plynem, roztokem a~krystalem: \num{47(3)}~\kjm.
+\end{itemize}
+
+\subsection*{Excitované stavy podél reakční koordináty (ZINDO/S)}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{zindo_states.png}
+\caption{Nahoře: $S_0$ (ZINDO/S, geometrie dolní obálky skenu) a~$S_n = S_0 + \Delta E_n$(ZINDO/S).
+  Dole: vertikální excitační energie $\Delta E_n$ samotné. Vlevo torze, vpravo inverze.}
+\end{figure}
+\begin{itemize}\itemsep2pt
+  \item Při torzi se $S_1$ a~$S_0$ k~\SI{90}{\degree} přibližují ($\Delta E_1 = \SI{0.08}{\electronvolt}$);
+        podél inverze zůstává $\Delta E_1 \geq \SI{0.86}{\electronvolt}$.
+  \item Energie $S_0$ ze ZINDO/S nemá fyzikální smysl: cis leží o~\SI{157}{\electronvolt} nad trans, podél inverze má minimum
+        u~CNN \SI{135}{\degree} (\SI{-12}{\electronvolt}) a~u~torze \SI{90}{\degree} skáče o~desítky eV (změna větve skenu).
+        Použitelné jsou jen excitační energie $\Delta E_n$.
+  \item Skoky $\Delta E_2$ u~\SI{90}{\degree} (torze) a~mezi \SIlist{140;145}{\degree} (inverze) odpovídají přechodu
+        mezi větvemi skenu, nejsou to vlastnosti stavů.
+  \item U~\SI{90}{\degree} je i~reference ZINDO/S uzavřenoslupková, hodnota $\Delta E_1$ je proto jen kvalitativní.
+  \item \todo{interpretace: torze jako cesta fotoizomerace z~$S_1$ vs. inverze}
+\end{itemize}
+
+\subsection*{Molekulové orbitaly a~charakter přechodů}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\linewidth]{orbitals.png}
+\caption{Orbitaly ZINDO/S 29 (n), 33 (HOMO, $\pi$) a~34 (LUMO, $\pi^*$) pro trans (vlevo) a~cis (vpravo),
+  izoplocha $\pm$0,03.}
+\end{figure}
+\begin{table}[H]
+\centering\small
+\caption{Excitace ZINDO/S v~minimech: excitační energie $\Delta E$, síla oscilátoru $f$, hlavní příspěvek (váha).}
+\begin{tabular}{lSSlSSl}
+\toprule
+ & \multicolumn{3}{c}{trans} & \multicolumn{3}{c}{cis} \\
+ & {$\Delta E$ / \si{\electronvolt}} & {$f$} & excitace & {$\Delta E$ / \si{\electronvolt}} & {$f$} & excitace \\
+\midrule
+$S_1$ & 2.42 & 0.000 & n$\to$$\pi^*$ (0,85) & 2.65 & 0.011 & n$\to$$\pi^*$ (0,69) \\
+$S_2$ & 3.66 & 0.876 & $\pi$$\to$$\pi^*$ (0,96) & 3.78 & 0.177 & $\pi$$\to$$\pi^*$ (0,83) \\
+\bottomrule
+\end{tabular}
+\end{table}
+\begin{itemize}\itemsep2pt
+  \item MO 29: \SI{81}{\percent} hustoty na dusících, v~rovině CNNC (volné elektronové páry, n);
+        MO 33 a~34: $\pi$ a~$\pi^*$ kolmé na rovinu.
+  \item $S_1$ je n$\to$$\pi^*$: u~planárního trans zakázaný ($f = 0$), u~cis slabě povolený. \todo{důvod: vytočení fenylů z~roviny CNNC}
+  \item $S_2$ je $\pi$$\to$$\pi^*$: intenzivní u~trans, u~cis asi pětkrát slabší.
+  \item \todo{srovnání s~experimentálními absorpčními pásy, pokud je chceš}
+\end{itemize}
+
+\section*{Závěr}
+\begin{itemize}\itemsep2pt
+  \item trans-azobenzen je stabilnější o~\SI{50}{\kilo\joule\per\mole} ($\Delta H$, $\omega$B97X-D3), v~souladu
+        s~experimentem (\SI{47}{\kilo\joule\per\mole}); \mbox{B3LYP/6-31G*} nadhodnocuje, PM6 dává špatné znaménko.
+  \item Bariéra inverze \SI{167}{\kilo\joule\per\mole} vůči trans; \todo{torze po doběhnutí BS výpočtu}.
+  \item $S_1$ je n$\to$$\pi^*$, $S_2$ $\pi$$\to$$\pi^*$; podél torze se $S_1$ blíží $S_0$.
+\end{itemize}
+
+\section*{Zdroje}
+\begin{enumerate}\itemsep1pt\small
+  \item[{[1]}] Jerca, F. A.; Jerca, V. V.; Hoogenboom, R. \textit{Nat. Rev. Chem.} \textbf{2022}, 6, 51–69,
+    Advances and opportunities in the exciting world of azobenzenes
+    (\href{https://doi.org/10.1038/s41570-021-00334-w}{DOI: 10.1038/s41570-021-00334-w}).
+  \item[{[2]}] Fedele, C.; Ruoko, T.-P.; Kuntze, K.; Virkki, M. et al. \textit{Photochem. Photobiol. Sci.} \textbf{2022}, 21, 1719–1734,
+    New tricks and emerging applications from contemporary azobenzene research
+    (\href{https://doi.org/10.1007/s43630-022-00262-8}{DOI: 10.1007/s43630-022-00262-8}).
+  \item[{[3]}] Yamaguchi, K.; Jensen, F.; Dorigo, A.; Houk, K. N. \textit{Chem. Phys. Lett.} \textbf{1988}, 149, 537–542,
+    A spin correction procedure for unrestricted Hartree-Fock and Møller-Plesset wavefunctions for singlet diradicals and polyradicals
+    (\href{https://doi.org/10.1016/0009-2614(88)80378-6}{DOI: 10.1016/0009-2614(88)80378-6}).
+  \item[{[4]}] Neese, F. \textit{WIREs Comput. Mol. Sci.} \textbf{2025}, 15, e70019,
+    Software update: the ORCA program system, version 6.0
+    (\href{https://doi.org/10.1002/wcms.70019}{DOI: 10.1002/wcms.70019}).
+  \item[{[5]}] Lin, Y.-S.; Li, G.-D.; Mao, S.-P.; Chai, J.-D. \textit{J. Chem. Theory Comput.} \textbf{2013}, 9, 263–272,
+    Long-range corrected hybrid density functionals with improved dispersion corrections
+    (\href{https://doi.org/10.1021/ct300715s}{DOI: 10.1021/ct300715s}).
+  \item[{[6]}] Weigend, F.; Ahlrichs, R. \textit{Phys. Chem. Chem. Phys.} \textbf{2005}, 7, 3297–3305,
+    Balanced basis sets of split valence, triple zeta valence and quadruple zeta valence quality for H to Rn
+    (\href{https://doi.org/10.1039/b508541a}{DOI: 10.1039/b508541a}).
+  \item[{[7]}] Stewart, J. J. P. \textit{J. Mol. Model.} \textbf{2007}, 13, 1173–1213,
+    Optimization of parameters for semiempirical methods V
+    (\href{https://doi.org/10.1007/s00894-007-0233-4}{DOI: 10.1007/s00894-007-0233-4}).
+  \item[{[8]}] Ridley, J.; Zerner, M. \textit{Theor. Chim. Acta} \textbf{1973}, 32, 111–134,
+    An intermediate neglect of differential overlap technique for spectroscopy: pyrrole and the azines
+    (\href{https://doi.org/10.1007/BF00528484}{DOI: 10.1007/BF00528484}).
+  \item[{[9]}] Zhu, M.; Yu, L. \textit{J. Therm. Anal. Calorim.} \textbf{2018}, 132, 463–469,
+    Trans–cis isomerization energies of azopyridines: a calorimetric and computational study
+    (\href{https://doi.org/10.1007/s10973-017-6913-0}{DOI: 10.1007/s10973-017-6913-0}).
+  \item[{[10]}] Cammenga, H. K.; Emel'yanenko, V. N.; Verevkin, S. P. \textit{Ind. Eng. Chem. Res.} \textbf{2009}, 48, 10120–10128,
+    Re-investigation and data assessment of the isomerization and 2,2'-cyclization of stilbenes and azobenzenes
+    (\href{https://doi.org/10.1021/ie900800q}{DOI: 10.1021/ie900800q}).
+\end{enumerate}
+
+\end{document}

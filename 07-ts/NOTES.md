@@ -29,6 +29,37 @@ grep -E "E\(High-Spin\)|E\(BrokenSym\)" uks_bs.out
 | UKS broken-symmetry singlet | 1.071 | −572.731857262 | 151.54 |
 | UKS triplet (SCF + D3) | 2.072 | −572.738988499 | 132.82 |
 
+## Torsion 90°: optimization of the open-shell states (`torsion90_opt/`)
+
+CNNC fixed at 90° (`%geom Constraints {D 2 0 1 13 C} end end`), start geometry `torsion90/torsion90.xyz`,
+`Opt` with default criteria, 3 cores each.
+
+- `bs.inp`: UKS singlet, initial orbitals = broken-symmetry solution `torsion90/uks_bs.gbw` (`MORead`); 5 cycles, 43 min
+- `triplet_sp.inp`: UKS triplet single point at the optimized BS geometry (`bs.xyz`), needed for the projection; 10 min
+- `triplet.inp`: UKS triplet, optimization; 6 cycles, 52 min (N=N 1.279 Å, CNN 122.3°)
+
+```
+cp ../torsion90/torsion90.xyz bs.xyz; cp ../torsion90/torsion90.xyz triplet.xyz; cp ../torsion90/uks_bs.gbw bs_guess.gbw
+nohup /usr/local/bin/orca_6_1_1/orca bs.inp > bs.out &
+nohup /usr/local/bin/orca_6_1_1/orca triplet_sp.inp > triplet_sp.out &   # after bs.out has finished
+nohup /usr/local/bin/orca_6_1_1/orca triplet.inp > triplet.out &
+grep -E "Expectation value of <S\*\*2>|FINAL SINGLE POINT ENERGY" bs.out triplet_sp.out triplet.out
+```
+
+- BS optimization: N=N 1.254 → 1.297 Å, CNN 126.6° → 120.7° (both sides), 12.0 kJ/mol below the BS singlet at the
+  RKS geometry.
+- Yamaguchi projection at the BS geometry (same geometry, D3 −0.008119521 Eh identical and cancels):
+  E(S) = E(BS) + ⟨S²⟩BS / (⟨S²⟩T − ⟨S²⟩BS) · (E(BS) − E(T)).
+- The triplet lies below the BS singlet, so the projected singlet is higher than E(BS).
+- The projected singlet is evaluated at the BS-optimized geometry, not at its own minimum.
+
+| State | ⟨S²⟩ | E / Eh | E − E(trans) / kJ mol⁻¹ |
+|---|---|---|---|
+| BS singlet, opt. | 1.098 | −572.736426405 | 139.55 |
+| singlet, Yamaguchi projection | 0 | −572.730347419 | 155.51 |
+| triplet, BS geometry | 2.088 | −572.741911827 | 125.14 |
+| triplet, opt. | 2.080 | −572.742273570 | 124.19 |
+
 ## Inversion TS (`inversion/`)
 
 Start: point 180° of `03-scan/inversion_envelope.xyz` (`inversion_start.xyz`), 8 cores, 42 min.

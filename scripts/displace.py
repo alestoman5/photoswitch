@@ -1,18 +1,21 @@
 import sys
 import numpy as np
 
+# usage: displace.py <file.hess> <file.xyz> <mode index> <amplitude/Å> <output.xyz>
 hess, xyz, mode, amp, out = sys.argv[1], sys.argv[2], int(sys.argv[3]), float(sys.argv[4]), sys.argv[5]
 
+# read the $normal_modes block of the ORCA .hess file (printed in column blocks)
 blk = open(hess).read().split('$normal_modes')[1].split('$')[0].split('\n')
-n = int(blk[1].split()[0])
+n = int(blk[1].split()[0])  # 3N
 modes = np.zeros((n, n))
 i = 2
 while blk[i].strip():
-    cols = [int(c) for c in blk[i].split()]
+    cols = [int(c) for c in blk[i].split()]  # header line with column (mode) indices
     for r in range(n):
         modes[r, cols] = [float(v) for v in blk[i + 1 + r].split()[1:]]
-    i += n + 1
+    i += n + 1  # next column block
 
+# displace the geometry along the chosen mode; amp = largest atomic displacement
 lines = open(xyz).read().split('\n')
 atoms = [l.split() for l in lines[2:] if l.strip()]
 x = np.array([[float(v) for v in a[1:4]] for a in atoms])

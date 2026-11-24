@@ -2,39 +2,42 @@ import re
 import sys
 import numpy as np
 
+# usage: mo_character.py <ZINDO output with print[p_mos]> <geometry.xyz>
 out, xyzfile = sys.argv[1], sys.argv[2]
-mos = range(29, 39)
+mos = range(29, 39)  # MOs to analyse (0-based, HOMO = 33)
 
 x = np.array([[float(v) for v in l.split()[1:4]] for l in open(xyzfile).read().split('\n')[2:] if l.strip()])
 # normal of the C2-N0=N1 plane; N0->C2 and N1->C13 are antiparallel in trans, so their cross product is ~0
 normal = np.cross(x[1] - x[0], x[2] - x[0])
 normal /= np.linalg.norm(normal)
 
+# parse the MO coefficient blocks: header of MO indices, energies, then one row per basis function
 lines = open(out).read().split('MOLECULAR ORBITALS')[1].split('\n')[2:]
 coef, energy, labels, idx = {}, {}, [], []
 for k, l in enumerate(lines):
     p = l.split()
-    if p and all(t.isdigit() for t in p):
+    if p and all(t.isdigit() for t in p):  # MO index header
         idx = [int(t) for t in p]
         for i, e in zip(idx, lines[k + 1].split()):
-            energy[i] = float(e) * 27.211386
+            energy[i] = float(e) * 27.211386  # Eh -> eV
             coef[i] = []
-    elif p and re.fullmatch(r'\d+[A-Z][a-z]?', p[0]):
-        if idx[0] == 0:
+    elif p and re.fullmatch(r'\d+[A-Z][a-z]?', p[0]):  # basis function row, e.g. '0N   pz'
+        if idx[0] == 0:  # store labels only once (first block)
             labels.append((int(re.match(r'\d+', p[0]).group()), p[1]))
         for j, i in enumerate(idx):
             coef[i].append(float(p[2 + j]))
-    elif p and not p[0].startswith('-') and not re.fullmatch(r'-?\d+\.\d+', p[0]):
+    elif p and not p[0].startswith('-') and not re.fullmatch(r'-?\d+\.\d+', p[0]):  # end of the MO section
         break
 coef = {i: np.array(c) for i, c in coef.items()}
 
-el = [l.split()[0] for l in open(xyzfile).read().split('\n')[2:] if l.strip()]
-nidx = [k for k, (a, f) in enumerate(labels) if el[a] == 'N']
+el = [l.split()[0] for l in open(xyzfile).read().split('\n')[2:] if l.strip()]  # element symbols
+nidx = [k for k, (a, f) in enumerate(labels) if el[a] == 'N']  # basis functions on N atoms
 print(f'{"MO":>3} {"E/eV":>7} {"N":>5} {"pi":>5}   (fractions of c^2; pi = p along the CNNC-plane normal)')
 for i in mos:
-    c2 = coef[i] ** 2 / (coef[i] ** 2).sum()
+    c2 = coef[i] ** 2 / (coef[i] ** 2).sum()  # orthogonal ZINDO basis: c^2 are populations
     pi = 0.0
     for a in range(len(el)):
+        # p coefficients of atom a projected on the plane normal
         p = {f[-1]: coef[i][k] for k, (b, f) in enumerate(labels) if b == a and f.endswith(('px', 'py', 'pz'))}
         if p:
             pi += (np.array([p['x'], p['y'], p['z']]) @ normal) ** 2

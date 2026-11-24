@@ -1,0 +1,5 @@
+! UKS wB97X-D3 def2-TZVP DefGrid3 VeryTightSCF Opt MORead
+%pal nprocs 3 end
+%moinp "bs_guess.gbw"
+%geom Constraints {D 2 0 1 13 C} end end
+* xyzfile 0 1 bs.xyz

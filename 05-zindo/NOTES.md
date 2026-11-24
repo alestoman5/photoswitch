@@ -15,7 +15,7 @@ for d in torsion inversion; do
     /usr/local/bin/orca_6_1_1/orca ${x%.xyz}.inp > ${x%.xyz}.out
   done)
 done
-python ../scripts/zindo_plot.py     # -> torsion_zindo.dat, inversion_zindo.dat, zindo_states.png (S0 from 03-scan envelope)
+python ../scripts/zindo_plot.py     # -> torsion_zindo.dat, inversion_zindo.dat, zindo_states.png
 ```
 
 Input (`p000.inp`):
@@ -38,7 +38,7 @@ weights of i → a excitations), `ABSORPTION SPECTRUM VIA TRANSITION ELECTRIC DI
 - The energy does not depend on molecular orientation (four rotated copies of trans agree within 3·10⁻⁷ Eh).
 - ZINDO/1 on the same geometries (test, not tracked): trans −105.616235, 90° −105.551483, cis −105.623746 Eh
   (cis − trans = −19.7 kJ/mol); not used further.
-- Plotted states: S0 = ωB97X-D3/def2-TZVP energy of the envelope point (`03-scan/*_envelope.dat`),
-  S1 = S0 + ΔE1(ZINDO/S), S2 = S0 + ΔE2(ZINDO/S). The bottom panels show the ZINDO/S excitation energies alone.
+- Plotted states: S0 = ZINDO/S ground-state energy of the envelope point (`Total Energy`, relative to the first point = trans),
+  S1 = S0 + ΔE1, S2 = S0 + ΔE2 (ZINDO/S). The bottom panels show the ZINDO/S excitation energies alone.
 - Inversion: ΔE2 jumps from 3.81 to 4.33 eV between 140° and 145°, where the envelope switches from the
   planar branch to the branch with the inverting phenyl perpendicular (`03-scan/NOTES.md`).
