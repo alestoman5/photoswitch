@@ -63,22 +63,22 @@ motivují vývoj přepínačů reagujících na viditelné světlo~\cite{Gao2022
 upravovat chemickou substitucí a~změnou struktury; při návrhu je třeba zohlednit nejen absorpční vlnovou
 délku, ale také účinnost přepnutí a~stabilitu izomerů~\cite{Li2025,Ryazantsev2021}. V~této úloze budou
 \trans\nobreakdash- a~\cis-azobenzen porovnány pomocí kvantově-chemických výpočtů a~jejich izomerační dráha
-bude analyzována z~hlediska energetiky a~elektronových stavů. Uvažujeme obě obvyklé cesty, torzi kolem
-vazby N=N (úhel CNNC) a~inverzi na dusíku (úhel CNN)~\cite{Cembran2004}.
+bude analyzována z~hlediska energetiky a~elektronových stavů. Uvažovány jsou obě obvyklé cesty, torze kolem
+vazby N=N (úhel CNNC) a~inverze na dusíku (úhel CNN)~\cite{Cembran2004}.
 
 \section*{Metody}
-Optimalizace, frekvence a~skeny jsme počítali metodou $\omega$B97X-D3~\cite{Lin2013}/def2-TZVP~\cite{Weigend2005}
-v~programu ORCA~6.1.1~\cite{Neese2025} (mřížka DefGrid3, SCF \SI{e-9}{\hartree}). Zvolili jsme hybridní
+Optimalizace, frekvence a~skeny byly počítány metodou $\omega$B97X-D3~\cite{Lin2013}/def2-TZVP~\cite{Weigend2005}
+v~programu ORCA~6.1.1~\cite{Neese2025} (mřížka DefGrid3, SCF \SI{e-9}{\hartree}). Zvolen byl hybridní
 funkcionál s~oddělením krátkého a~dlouhého dosahu a~s~disperzní korekcí, protože v~\cis-izomeru jsou fenyly
-blízko sebe, a~bázi triple-zeta, která je pro 24 atomů ještě levná (optimalizace asi \SI{15}{\minute} na
+blízko sebe, a~báze triple-zeta, která je pro 24 atomů ještě levná (optimalizace asi \SI{15}{\minute} na
 8 jádrech). Termochemie je v~harmonické aproximaci při \SI{298.15}{\kelvin}. Skeny CNNC
 (\SIrange{180}{0}{\degree}) a~CNN (z~obou izomerů do \SI{180}{\degree}) měly krok \SI{5}{\degree}; kde sken
-přeskočil na jinou konformaci fenylů, přepočítali jsme úsek z~druhé větve a~bereme dolní obálku. U~torze
-\SI{90}{\degree} jsme kvůli nestabilitě uzavřenoslupkového řešení počítali singlet s~narušenou symetrií
+přeskočil na jinou konformaci fenylů, byl úsek přepočítán z~druhé větve a~použita je dolní obálka. U~torze
+\SI{90}{\degree} byly kvůli nestabilitě uzavřenoslupkového řešení počítány singlet s~narušenou symetrií
 (broken symmetry, BS) a~triplet; čistý singlet odhaduje Yamaguchiho projekce~\cite{Yamaguchi1988}.
-Srovnávací izomerační energie jsme spočítali metodou \mbox{B3LYP/6-31G*}~\cite{Becke1993,Lee1988} (ORCA)
-a~PM6~\cite{Stewart2007} (MOPAC~23.2.5~\cite{MOPAC}, rozdíl slučovacích entalpií). Excitované stavy počítá
-ZINDO/S~\cite{Ridley1973} s~CIS (dva singlety) na geometriích dolní obálky skenů. Vstupy a~postup jsou
+Srovnávací izomerační energie byly spočítány metodou \mbox{B3LYP/6-31G*}~\cite{Becke1993,Lee1988} (ORCA)
+a~PM6~\cite{Stewart2007} (MOPAC~23.2.5~\cite{MOPAC}, rozdíl slučovacích entalpií). Excitované stavy byly
+počítány metodou ZINDO/S~\cite{Ridley1973} s~CIS (dva singlety) na geometriích dolní obálky skenů. Vstupy a~postup jsou
 v~repozitáři \url{https://github.com/alestoman5/photoswitch}.
 
 \section*{Výsledky a~diskuse}
@@ -109,10 +109,10 @@ exp., kapalina (DSC)~\cite{Zhu2018} & {--} & {--} & 47.0(13) & {--} \\
 \end{tabular}
 \end{table}
 
-PM6 dává opačné znaménko: \cis\ vychází o~\SI{16.5}{\kilo\joule\per\mole} stabilnější. Abychom vyloučili
-chybu výpočtu, optimalizovali jsme oba izomery se stejnými klíčovými slovy a~těsnými kritérii
-(BFGS, \texttt{GNORM=0.001}) a~z~geometrií s~imaginární frekvencí jsme posunem podél módu a~reoptimalizací
-došli k~minimům se všemi frekvencemi kladnými. Výsledek se nezměnil, takže jde o~vlastnost metody, ne
+PM6 dává opačné znaménko: \cis\ vychází o~\SI{16.5}{\kilo\joule\per\mole} stabilnější. Aby byla vyloučena
+chyba výpočtu, byly oba izomery optimalizovány se stejnými klíčovými slovy a~těsnými kritérii
+(BFGS, \texttt{GNORM=0.001}) a~geometrie s~imaginární frekvencí byly posunuty podél módu a~reoptimalizovány
+až k~minimům se všemi frekvencemi kladnými. Výsledek se nezměnil, takže jde o~vlastnost metody, ne
 nastavení. PM6 se od DFT liší i~geometrií: u~\trans\ dává delší vazbu N=N (\SI{1.254}{\angstrom}
 proti \SI{1.235}{\angstrom}) a~u~\cis\ větší úhel CNN (\SI{128.6}{\degree} proti \SI{122.6}{\degree}).
 Na izomerační energii azobenzenu proto PM6 použít nelze.
@@ -127,8 +127,8 @@ při \SI{90}{\degree}) je hrot v~průsečíku dvou větví a~navíc patří nest
 S~narušenou symetrií leží singlet při \SI{90}{\degree} \SI{140}{\kilo\joule\per\mole} nad \trans\
 (po projekci \SI{156}{\kilo\joule\per\mole}) a~triplet \SI{124}{\kilo\joule\per\mole}. Torzní cesta s~otevřenými slupkami je tedy
 v~základním stavu nižší než inverze, což je v~souladu s~mechanismem
-termální izomerace přes křížení $S_0$ a~$T_1$~\cite{Cembran2004}. Rychlost takového přechodu jsme však
-nepočítali, takže mezi mechanismy nerozhodujeme.
+termální izomerace přes křížení $S_0$ a~$T_1$~\cite{Cembran2004}. Rychlost takového přechodu však
+spočítána nebyla, takže mezi mechanismy zde rozhodnuto není.
 
 \begin{figure}[H]
 \centering
@@ -141,9 +141,9 @@ nepočítali, takže mezi mechanismy nerozhodujeme.
 \paragraph{Excitované stavy podél reakční koordináty.}
 Energie základního stavu ze ZINDO/S podél cest použitelná není: \cis\ vychází \SI{157}{\electronvolt} nad
 \trans\ a~mezi body skenu se mění o~desítky eV, hlavně s~jaderným odpuzováním. ZINDO/S je parametrizována na
-excitační energie~\cite{Ridley1973}. Zkusili jsme i~ZINDO/1, ta ale dává \cis\ o~\SI{20}{\kilo\joule\per\mole}
-stabilnější než \trans, tedy opět špatné znaménko. Stavy proto skládáme z~toho, co každá metoda popisuje
-spolehlivě: $S_0$ bereme ze skenu $\omega$B97X-D3 a~excitované stavy jako $S_n = S_0 + \Delta E_n$, kde
+excitační energie~\cite{Ridley1973}. Vyzkoušena byla i~ZINDO/1, ta ale dává \cis\ o~\SI{20}{\kilo\joule\per\mole}
+stabilnější než \trans, tedy opět špatné znaménko. Stavy jsou proto složeny z~toho, co každá metoda popisuje
+spolehlivě: $S_0$ je převzat ze skenu $\omega$B97X-D3 a~excitované stavy jsou určeny jako $S_n = S_0 + \Delta E_n$, kde
 $\Delta E_n$ je vertikální excitační energie ze ZINDO/S (obrázek~\ref{fig:states}).
 
 \begin{figure}[H]
@@ -197,8 +197,8 @@ s~experimentem (\SI{47}{\kilo\joule\per\mole}); \mbox{B3LYP/6-31G*} rozdíl nadh
 kontrole nastavení opačné znaménko. Inverzní tranzitní stav odpovídá aktivační energii
 \SI{113}{\kilo\joule\per\mole} (experiment \SI{118}{\kilo\joule\per\mole}); torze kolem \SI{90}{\degree}
 vyžaduje popis s~otevřenými slupkami a~leží pak níže než inverzní tranzitní stav. Energie
-základního stavu ze ZINDO/S ani ZINDO/1 nejsou použitelné, proto jsme je nahradili DFT a~ze ZINDO/S
-bereme jen excitační energie. $S_1$ je n$\to\pi^*$ a~$S_2$ $\pi\to\pi^*$; podél torze se $S_1$ přibližuje
+základního stavu ze ZINDO/S ani ZINDO/1 nejsou použitelné, proto byly nahrazeny DFT a~ze ZINDO/S
+jsou použity jen excitační energie. $S_1$ je n$\to\pi^*$ a~$S_2$ $\pi\to\pi^*$; podél torze se $S_1$ přibližuje
 k~$S_0$, podél inverze ne.
 
 \begin{thebibliography}{99}\small\itemsep1pt
