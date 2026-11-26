@@ -70,3 +70,31 @@ axes[1, 1].set_xticks([120, 140, 160, 180, 200, 220], ['120', '140', '160', '180
 axes[1, 1].set_xlabel('CNN angle / °  (trans side → linear → cis side)')
 fig.tight_layout()
 fig.savefig(f'{R}05-zindo/zindo_states.png', dpi=200)
+
+# Composite figure: S0 from the ωB97X-D3/def2-TZVP scan envelope, S_n = S0(DFT) + ΔE_n(ZINDO/S).
+# The ZINDO/S ground-state energy is not usable along the path (cis 157 eV above trans), see 05-zindo/NOTES.md.
+KJ2EV = 1 / 96.485332  # kJ/mol -> eV
+fig, axes = plt.subplots(1, 2, figsize=(10, 4), sharey=True)
+for col, scan in enumerate(['torsion', 'inversion']):
+    env = [l.split() for l in open(f'{R}03-scan/{scan}_envelope.dat') if not l.startswith('#')]
+    rows = data[scan]
+    assert len(env) == len(rows)
+    for e, r in zip(env, rows):
+        assert abs(float(e[0]) - r[0]) < 0.11 or abs(360 - float(e[0]) - r[0]) < 0.11, (e[0], r[0])
+    q = [float(e[0]) for e in env]
+    s0 = [float(e[1]) * KJ2EV for e in env]
+    ax = axes[col]
+    c, m, ls = styles[0]
+    ax.plot(q, s0, color=c, marker=m, ls=ls, ms=4, lw=1.5, label='S$_0$ (ωB97X-D3)')
+    for k in range(2):
+        c, m, ls = styles[k + 1]
+        ax.plot(q, [s + r[2][k][0] for s, r in zip(s0, rows)], color=c, marker=m, ls=ls, ms=4, lw=1.5,
+                label=f'S$_{k + 1}$ = S$_0$ + Δ$E_{k + 1}$(ZINDO/S)')
+    ax.legend(frameon=False, fontsize=9)
+axes[0].set_ylabel('$E - E_{S_0}$(trans) / eV')
+axes[0].set_xlim(180, 0)
+axes[0].set_xlabel('CNNC dihedral / °')
+axes[1].set_xticks([120, 140, 160, 180, 200, 220], ['120', '140', '160', '180', '160', '140'])
+axes[1].set_xlabel('CNN angle / °  (trans side → linear → cis side)')
+fig.tight_layout()
+fig.savefig(f'{R}05-zindo/states_dft_zindo.png', dpi=200)
