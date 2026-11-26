@@ -79,7 +79,7 @@ přeskočil na jinou konformaci fenylů, přepočítali jsme úsek z~druhé vět
 Srovnávací izomerační energie jsme spočítali metodou \mbox{B3LYP/6-31G*}~\cite{Becke1993,Lee1988} (ORCA)
 a~PM6~\cite{Stewart2007} (MOPAC~23.2.5~\cite{MOPAC}, rozdíl slučovacích entalpií). Excitované stavy počítá
 ZINDO/S~\cite{Ridley1973} s~CIS (dva singlety) na geometriích dolní obálky skenů. Vstupy a~postup jsou
-v~repozitáři \url{https://github.com/alestoman5/photoswitch}. \todo{ověřit, že je repozitář veřejný}
+v~repozitáři \url{https://github.com/alestoman5/photoswitch}.
 
 \section*{Výsledky a~diskuse}
 
@@ -88,11 +88,12 @@ v~repozitáři \url{https://github.com/alestoman5/photoswitch}. \todo{ověřit, 
 \SI{5.8}{\degree}) jsou fenyly vytočené z~roviny CNNC. Ani jeden izomer nemá imaginární frekvenci (nejnižší
 \SI{12.0}{\per\centi\metre} u~\trans, \SI{40.6}{\per\centi\metre} u~\cis), oba jsou tedy minima. \trans\ je
 stabilnější o~\SI{50.0}{\kilo\joule\per\mole} v~entalpii, což se od experimentu liší o~\SI{2.6}{\kilo\joule\per\mole}
-(tabulka~\ref{tab:iso}). \mbox{B3LYP/6-31G*} rozdíl nadhodnocuje o~\SI{14}{\kilo\joule\per\mole}.
+(tabulka~\ref{tab:iso}). \mbox{B3LYP/6-31G*} rozdíl nadhodnocuje o~\SI{14}{\kilo\joule\per\mole}; podobně v~přehledu~\cite{Cammenga2009}
+nadhodnocuje i~B3LYP/cc-pVDZ (\SI{66.3}{\kilo\joule\per\mole}).
 
 \begin{table}[H]
 \centering\small
-\caption{Izomerační energie \cis${}-{}$\trans\ v~\kjm, plynná fáze, \SI{298.15}{\kelvin}.
+\caption{Izomerační energie \cis${}-{}$\trans\ v~\kjm, \SI{298.15}{\kelvin}; výpočty pro plynnou fázi.
   ZPE energie nulových kmitů; u~PM6 je $\Delta H$ rozdíl slučovacích entalpií.}
 \label{tab:iso}
 \begin{tabular}{lSSSS}
@@ -102,11 +103,11 @@ metoda & {$\Delta E$} & {$\Delta E$+ZPE} & {$\Delta H$} & {$\Delta G$} \\
 $\omega$B97X-D3/def2-TZVP & 50.9 & 50.4 & 50.0 & 52.4 \\
 \mbox{B3LYP/6-31G*}       & 63.5 & 61.9 & 61.9 & 62.8 \\
 PM6                       & {--} & {--} & -16.5 & {--} \\
-exp., plynná fáze~\cite{Zhu2018,Cammenga2009} & {--} & {--} & 47.4(32) & {--} \\
+exp., plynná fáze~\cite{Cammenga2009} & {--} & {--} & 47.4(32) & {--} \\
+exp., kapalina (DSC)~\cite{Zhu2018} & {--} & {--} & 47.0(13) & {--} \\
 \bottomrule
 \end{tabular}
 \end{table}
-\todo{ověřit hodnotu 47,4(32) v~plném textu \cite{Zhu2018,Cammenga2009}}
 
 PM6 dává opačné znaménko: \cis\ vychází o~\SI{16.5}{\kilo\joule\per\mole} stabilnější. Abychom vyloučili
 chybu výpočtu, optimalizovali jsme oba izomery se stejnými klíčovými slovy a~těsnými kritérii
@@ -208,9 +209,8 @@ k~$S_0$, podél inverze ne.
   Molecular Design, Supramolecular Systems, and Applications. \textit{Nat. Sci.} \textbf{2022}, 3, e220020
   (\href{https://doi.org/10.1002/ntls.20220020}{DOI: 10.1002/ntls.20220020}).
 \bibitem{Li2025} Li, S. Recent Advances in Visible Light-Triggered Azobenzene Photoswitches (A Review).
-  \textit{Russ. J. Gen. Chem.} \textbf{2025}
+  \textit{Russ. J. Gen. Chem.} \textbf{2025}, 95, 3158–3176
   (\href{https://doi.org/10.1134/S1070363225605241}{DOI: 10.1134/S1070363225605241}).
-  \todo{doplnit ročník a~strany}
 \bibitem{Ryazantsev2021} Ryazantsev, M. N.; Strashkov, D. M.; Nikolaev, D. M.; Shtyrov, A. A.; Panov, M. S.
   Photopharmacological Compounds Based on Azobenzenes and Azoheteroarenes: Principles of Molecular Design,
   Molecular Modelling, and Synthesis. \textit{Russ. Chem. Rev.} \textbf{2021}, 90, 868–893
@@ -241,18 +241,19 @@ k~$S_0$, podél inverze ne.
 \bibitem{Stewart2007} Stewart, J. J. P. Optimization of Parameters for Semiempirical Methods V: Modification
   of NDDO Approximations and Application to 70 Elements. \textit{J. Mol. Model.} \textbf{2007}, 13, 1173–1213
   (\href{https://doi.org/10.1007/s00894-007-0233-4}{DOI: 10.1007/s00894-007-0233-4}).
-\bibitem{MOPAC} MOPAC, verze 23.2.5. \url{https://github.com/openmopac/mopac}
-  (staženo \todo{datum stažení}).
+\bibitem{MOPAC} Moussa, J. E.; Stewart, J. J. P. MOPAC: An Open-Source Semiempirical Molecular Orbital
+  Program. \textit{J. Open Source Softw.} \textbf{2026}, 11, 8025
+  (\href{https://doi.org/10.21105/joss.08025}{DOI: 10.21105/joss.08025}).
 \bibitem{Ridley1973} Ridley, J.; Zerner, M. An Intermediate Neglect of Differential Overlap Technique for
   Spectroscopy: Pyrrole and the Azines. \textit{Theor. Chim. Acta} \textbf{1973}, 32, 111–134
   (\href{https://doi.org/10.1007/BF00528484}{DOI: 10.1007/BF00528484}).
-\bibitem{Zhu2018} Zhu, M.; Yu, L. \textit{Trans}–\textit{cis} Isomerization Energies of Azopyridines:
-  A Calorimetric and Computational Study. \textit{J. Therm. Anal. Calorim.} \textbf{2018}, 132, 463–469
-  (\href{https://doi.org/10.1007/s10973-017-6913-0}{DOI: 10.1007/s10973-017-6913-0}).
 \bibitem{Cammenga2009} Cammenga, H. K.; Emel'yanenko, V. N.; Verevkin, S. P. Re-investigation and Data
   Assessment of the Isomerization and 2,2'-Cyclization of Stilbenes and Azobenzenes.
   \textit{Ind. Eng. Chem. Res.} \textbf{2009}, 48, 10120–10128
   (\href{https://doi.org/10.1021/ie900800q}{DOI: 10.1021/ie900800q}).
+\bibitem{Zhu2018} Zhu, M.; Yu, L. \textit{Trans}–\textit{cis} Isomerization Energies of Azopyridines:
+  A Calorimetric and Computational Study. \textit{J. Therm. Anal. Calorim.} \textbf{2018}, 132, 463–469
+  (\href{https://doi.org/10.1007/s10973-017-6913-0}{DOI: 10.1007/s10973-017-6913-0}).
 \bibitem{Andersson1982} Andersson, J.-Å.; Petterson, R.; Tegnér, L. Flash Photolysis Experiments in the Vapour
   Phase at Elevated Temperatures I: Spectra of Azobenzene and the Kinetics of Its Thermal
   \textit{Cis}–\textit{Trans} Isomerization. \textit{J. Photochem.} \textbf{1982}, 20, 17–32
