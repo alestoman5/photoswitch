@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<title>Poster – Fotopřepínače</title>
+<!-- A3 na výšku (297 × 420 mm, stejný poměr jako A0). PDF: node poster/render.js -->
+<style>
+  @page { size: 297mm 420mm; margin: 0; }
+  :root {
+    --ink: #1d2733; --muted: #4f5b66; --blue: #0072B2; --orange: #D55E00; --orange-txt: #A84300;
+    --line: #d9dee3; --tint: #f2f5f8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #fff; }
+  body {
+    width: 297mm; height: 420mm; overflow: hidden; color: var(--ink);
+    font-family: "Inter", sans-serif; font-size: 9.2pt; line-height: 1.38;
+    padding: 12mm 14mm 10mm; display: flex; flex-direction: column; gap: 5mm;
+  }
+  h1, h2, .big { font-family: "Inter Display", "Inter", sans-serif; }
+  header { display: grid; grid-template-columns: 1fr auto; gap: 8mm; align-items: end;
+           border-bottom: 1.2mm solid var(--blue); padding-bottom: 5mm; }
+  h1 { font-size: 31pt; line-height: 1.08; font-weight: 700; letter-spacing: -0.01em; }
+  h1 em { font-style: normal; color: var(--blue); }
+  .authors { margin-top: 3.5mm; font-size: 11pt; color: var(--muted); }
+  .authors b { color: var(--ink); font-weight: 600; }
+  .event { font-size: 9pt; color: var(--muted); text-align: right; line-height: 1.5; }
+
+  .billboard { display: grid; grid-template-columns: auto 1fr; gap: 9mm; align-items: center;
+               background: var(--tint); padding: 4.5mm 9mm; border-left: 2mm solid var(--blue); }
+  .big { font-size: 38pt; font-weight: 700; line-height: 1; white-space: nowrap; }
+  .big .calc { color: var(--blue); }
+  .big .vs { font-size: 18pt; color: var(--muted); font-weight: 500; margin: 0 2.5mm; }
+  .big .exp { color: var(--orange-txt); }
+  .big small { display: block; font-size: 10pt; font-weight: 500; color: var(--muted); margin-top: 2mm;
+               font-family: "Inter", sans-serif; }
+  .billboard p { font-size: 13pt; line-height: 1.32; font-weight: 500; }
+
+  .row { display: grid; gap: 9mm; }
+  .r2 { grid-template-columns: 1fr 1fr; }
+  .r3 { grid-template-columns: 1.15fr 1fr 1fr; gap: 7mm; }
+  .r-mo { grid-template-columns: 1.1fr 1fr; align-items: start; }
+  .fig-main img { max-height: 80mm; object-fit: contain; }
+  section h2 { font-size: 14pt; line-height: 1.2; font-weight: 650; margin-bottom: 2.4mm; }
+  section h2 .n { color: var(--blue); margin-right: 1.5mm; }
+  ul { padding-left: 4.2mm; }
+  li { margin-bottom: 1.2mm; }
+  li::marker { color: var(--blue); }
+  .method { border: 0.35mm solid var(--line); padding: 3.5mm 4.5mm; margin-top: 3mm; }
+  .method dt { font-weight: 650; }
+  .method dd { margin: 0 0 1.6mm 0; color: var(--ink); }
+  .eq { font-family: "Inter", sans-serif; font-weight: 600; background: var(--tint); padding: 1.6mm 3mm;
+        display: inline-block; margin-top: 0.8mm; }
+  figure img { width: 100%; display: block; }
+  figcaption { font-size: 7.8pt; color: var(--muted); margin-top: 1.6mm; line-height: 1.35; }
+  figcaption b { color: var(--ink); font-weight: 600; }
+  .note { font-size: 7.8pt; color: var(--muted); margin-top: 1.5mm; }
+
+  .mos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; margin-top: 1mm; }
+  .mo { text-align: center; }
+  .mo img { width: 100%; }
+  .mo span { display: block; font-size: 8.5pt; font-weight: 600; margin-top: 0.5mm; }
+  .trans-tab { width: 100%; border-collapse: collapse; margin-top: 3mm; font-size: 8.8pt; }
+  .trans-tab td, .trans-tab th { padding: 1.1mm 1.5mm; border-bottom: 0.3mm solid var(--line); text-align: left; }
+  .trans-tab th { font-weight: 600; color: var(--muted); font-size: 7.8pt; }
+  .trans-tab .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+  footer { display: grid; grid-template-columns: 1.25fr 1fr 44mm; gap: 8mm; margin-top: auto;
+           border-top: 0.35mm solid var(--line); padding-top: 4.5mm; }
+  .refs { font-size: 7pt; line-height: 1.35; color: var(--muted); }
+  .refs ol { padding-left: 4mm; }
+  .refs li { margin-bottom: 0.6mm; }
+  .qr { text-align: center; font-size: 7pt; color: var(--muted); }
+  .qr img { width: 26mm; height: 26mm; display: block; margin: 0 auto 1.5mm; }
+  .caveat { font-size: 8.4pt; }
+  .caveat h2 { font-size: 12pt; margin-bottom: 1.6mm; }
+  .ph { background: #fff3c4; color: var(--ink); padding: 0 1mm; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1><em>ωB97X-D3</em> vystihne izomeraci azobenzenu na 3&nbsp;kJ/mol, PM6 obrací i&nbsp;znaménko</h1>
+    <div class="authors"><b>Aleš Toman</b>, Petr Slavíček · Vysoká škola chemicko-technologická v&nbsp;Praze, <span class="ph">[ÚSTAV]</span></div>
+  </div>
+  <div class="event"><span class="ph">[AKCE · SEKCE · DATUM]</span></div>
+</header>
+
+<div class="billboard">
+  <div class="big"><span class="calc">50,0</span><span class="vs">vs</span><span class="exp">47,4</span>
+    <small>kJ mol⁻¹ · výpočet ωB97X-D3 vs experiment (plyn)</small></div>
+  <p>O tolik je <i>trans</i>-azobenzen stabilnější než <i>cis</i>. Rozdíl 2,6&nbsp;kJ/mol leží v&nbsp;nejistotě
+     měření; B3LYP/6-31G* ho nadhodnocuje a&nbsp;PM6 obrací.</p>
+</div>
+
+<div class="row r3">
+  <section>
+    <h2><span class="n">1</span>Azobenzen přepíná světlem mezi dvěma izomery</h2>
+    <ul>
+      <li><i>trans</i> ⇄ <i>cis</i> izomerace mění geometrii molekuly; využívá se ve fotofarmakologii, aktuátorech a&nbsp;optických materiálech [1].</li>
+      <li>Otázka: jak přesně levné a&nbsp;dražší metody popíší energii izomerů a&nbsp;které cestě, <b>torzi</b> kolem N=N nebo <b>inverzi</b> na dusíku, odpovídají excitované stavy [2].</li>
+    </ul>
+    <dl class="method">
+      <dt>Základní stav · ωB97X-D3/def2-TZVP (ORCA 6.1.1)</dt>
+      <dd>optimalizace, frekvence (žádné imaginární), relaxované skeny CNNC a&nbsp;CNN po 5°, TS inverze; u&nbsp;torze 90° otevřené slupky (BS singlet, triplet).</dd>
+      <dt>Srovnání · B3LYP/6-31G*, PM6 (MOPAC)</dt>
+      <dd>stejné izomery, entalpie při 298&nbsp;K.</dd>
+      <dt>Excitované stavy · ZINDO/S + CIS</dt>
+      <dd>energie S₀ ze ZINDO/S nepoužitelná (<i>cis</i> o&nbsp;157&nbsp;eV nad <i>trans</i>), proto
+        <br><span class="eq">S<sub>n</sub> = S<sub>0</sub>(DFT) + ΔE<sub>n</sub>(ZINDO/S)</span></dd>
+    </dl>
+    <p class="note">Všechny výpočty v&nbsp;plynné fázi, bez rozpouštědla.</p>
+  </section>
+
+  <section>
+    <h2><span class="n">2</span><i>trans</i> je stabilnější o&nbsp;50&nbsp;kJ/mol, v&nbsp;mezích experimentu</h2>
+    <figure>
+      <img src="fig_isomerization.svg" alt="Izomerační entalpie třemi metodami proti experimentu">
+      <figcaption><b>Jen ωB97X-D3 padne do pásu experimentu</b> [3]; B3LYP/6-31G* je o&nbsp;14&nbsp;kJ/mol výš,
+        PM6 vychází <i>cis</i> stabilnější i&nbsp;po kontrole optimalizace a&nbsp;frekvencí – chyba metody, ne nastavení.</figcaption>
+    </figure>
+  </section>
+  <section>
+    <h2><span class="n">3</span>Torze s&nbsp;otevřenými slupkami leží pod bariérou inverze</h2>
+    <figure>
+      <img src="fig_pathways.svg" alt="Energetické hladiny izomeračních cest">
+      <figcaption><b>Uzavřenoslupkový výpočet torzi přeceňuje o&nbsp;80&nbsp;kJ/mol</b> (nestabilní řešení).
+        TS inverze dává aktivační energii <i>cis</i>→<i>trans</i> 113&nbsp;kJ/mol, experiment 118&nbsp;kJ/mol [4].</figcaption>
+    </figure>
+  </section>
+</div>
+
+<section class="fig-main">
+  <h2><span class="n">4</span>Podél torze se S₁ přiblíží k&nbsp;S₀ na 0,08&nbsp;eV, podél inverze ne</h2>
+  <figure>
+    <img src="fig_states.svg" alt="Základní a excitované stavy podél torze a inverze">
+    <figcaption><b>Torze vede excitovanou molekulu tam, kde se S₁ a&nbsp;S₀ téměř dotýkají</b> – místo pro nezářivý návrat
+      do S₀, v&nbsp;souladu s&nbsp;mechanismem z&nbsp;literatury [2]. Podél inverze zůstává mezera ≥ 0,86&nbsp;eV.
+      Hodnota u&nbsp;90° je kvalitativní (obě metody uzavřenoslupkové).</figcaption>
+  </figure>
+</section>
+
+<h2 style="font-size:14pt;font-weight:650;margin-bottom:-4mm"><span class="n" style="color:var(--blue);margin-right:1.5mm">5</span>S₁ je slabý n→π*, S₂ intenzivní π→π*</h2>
+<div class="row r-mo">
+  <section>
+    <div class="mos">
+      <div class="mo"><img src="mo29.png" alt="MO 29"><span>n (MO 29)</span></div>
+      <div class="mo"><img src="mo33.png" alt="HOMO"><span>π (HOMO)</span></div>
+      <div class="mo"><img src="mo34.png" alt="LUMO"><span>π* (LUMO)</span></div>
+    </div>
+    <p class="note" style="margin-top:0.5mm">Orbitaly ZINDO/S, <i>trans</i>, izoplocha ±0,03.</p>
+  </section>
+  <section>
+    <table class="trans-tab">
+      <tr><th></th><th class="num">ΔE / eV<br><i>trans</i></th><th class="num">f<br><i>trans</i></th><th class="num">ΔE / eV<br><i>cis</i></th><th class="num">f<br><i>cis</i></th></tr>
+      <tr><td>S₁ n→π*</td><td class="num">2,42</td><td class="num">0,000</td><td class="num">2,65</td><td class="num">0,011</td></tr>
+      <tr><td>S₂ π→π*</td><td class="num">3,66</td><td class="num">0,876</td><td class="num">3,78</td><td class="num">0,177</td></tr>
+    </table>
+    <ul style="margin-top:3mm">
+      <li>Orbital n má 81&nbsp;% hustoty na dusících a&nbsp;leží v&nbsp;rovině CNNC, π* je k&nbsp;ní kolmý: u&nbsp;planárního <i>trans</i> je n→π* zakázaný (f = 0).</li>
+      <li>V&nbsp;nerovinném <i>cis</i> je n→π* slabě povolený, π→π* asi pětkrát slabší než u&nbsp;<i>trans</i>.</li>
+    </ul>
+  </section>
+</div>
+
+<footer>
+  <div class="caveat">
+    <h2>Co z&nbsp;toho plyne – a&nbsp;meze</h2>
+    <ul>
+      <li>Pro energetiku azobenzenu je třeba DFT; PM6 nestačí ani kvalitativně. ZINDO/S jen pro excitační energie.</li>
+      <li>Torzní cesta vyžaduje otevřené slupky; rychlost přechodu přes triplet nebyla počítána, mechanismus termální izomerace proto zůstává otevřený.</li>
+    </ul>
+  </div>
+  <div class="refs">
+    <ol>
+      <li>Jiang, J. et al. <i>Molecules</i> <b>2026</b>, 31, 1205.</li>
+      <li>Cembran, A. et al. <i>J. Am. Chem. Soc.</i> <b>2004</b>, 126, 3234.</li>
+      <li>Cammenga, H. K. et al. <i>Ind. Eng. Chem. Res.</i> <b>2009</b>, 48, 10120.</li>
+      <li>Andersson, J.-Å. et al. <i>J. Photochem.</i> <b>1982</b>, 20, 17.</li>
+      <li>Lin, Y.-S. et al. <i>J. Chem. Theory Comput.</i> <b>2013</b>, 9, 263 (ωB97X-D3).</li>
+      <li>Ridley, J.; Zerner, M. <i>Theor. Chim. Acta</i> <b>1973</b>, 32, 111 (ZINDO/S).</li>
+    </ol>
+  </div>
+  <div class="qr"><img src="qr.svg" alt="QR kód na repozitář">vstupy, výstupy a&nbsp;skripty<br>github.com/alestoman5/photoswitch</div>
+</footer>
+
+</body>
+</html>
